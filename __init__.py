@@ -10,8 +10,10 @@ class WebFactionMiddleware(object):
 
 app.wsgi_app = WebFactionMiddleware(app.wsgi_app)
 
-@app.route("/")
-def hello():
-    return "Hello World!"
+import genderator.views
+
+#@app.route("/")
+#def hello():
+#    return "Hello World!"
 
 
