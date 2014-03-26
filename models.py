@@ -3,7 +3,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from genderator import app
 
 db = SQLAlchemy(app)
-	
+defaultPronounId = 3 #traditionally neutral - they,them,their
+
 class Gender(db.Model):
 	__tablename__ = "genders"
 
@@ -11,7 +12,7 @@ class Gender(db.Model):
 	name = db.Column(db.String(150), unique=True, index=False)
 	pronoun_set_id = db.Column(db.Integer, db.ForeignKey("pronoun_sets.id"))
 
-	def __init__(self, name, pronoun_set_id=None):
+	def __init__(self, name, pronoun_set_id=defaultPronounId):
 		self.name = name
 		self.pronoun_set_id = pronoun_set_id
 
