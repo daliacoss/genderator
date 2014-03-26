@@ -3,7 +3,10 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from genderator import app
 
 db = SQLAlchemy(app)
-defaultPronounId = 3 #traditionally neutral - they,them,their
+pronounIdFemale = 1
+pronounIdMale = 2
+pronounIdNeutral = 3
+defaultPronounId = pronounIdNeutral #traditionally neutral - they,them,their
 
 class Gender(db.Model):
 	__tablename__ = "genders"
@@ -30,3 +33,22 @@ class PronounSet(db.Model):
 		self.pronoun_object = pronoun_object
 		self.pronoun_possessive = pronoun_possessive
 		self.description = description
+
+def getGenderQuery(name, database=db):
+	return database.session.query(Gender).filter_by(name=name)
+
+def getGender(name, database=db):
+	genders = getGenderQuery(name, database).all()
+	if len(genders):
+		return genders[0]
+
+"""update gender entry using dict values"""
+def updateGender(name, values, database=db):
+	getGenderQuery(name).update(values)
+	database.session.commit()
+
+def insertGenderFromValues(name, pronounSetId=defaultPronounId, database=db):
+	if not getGender(name, database):
+		database.session.add(Gender(name, pronounSetId))
+		database.session.commit()
+
