@@ -1,5 +1,6 @@
-from flask import Flask
+import random
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from genderator import app
 
 db = SQLAlchemy(app)
@@ -42,13 +43,18 @@ def getGender(name, database=db):
 	if len(genders):
 		return genders[0]
 
-"""update gender entry using dict values"""
+def getRandomGender(database=db):
+	highest = database.session.query(func.max(Gender.id)).scalar();
+	#randint is inclusive-inclusive
+	index = random.randint(1, highest)
+	return db.session.query(Gender).filter_by(id=index).all()[0]
+
+"""update gender entry using dict of values"""
 def updateGender(name, values, database=db):
-	getGenderQuery(name).update(values)
+	getGenderQuery(name, database).update(values)
 	database.session.commit()
 
 def insertGenderFromValues(name, pronounSetId=defaultPronounId, database=db):
 	if not getGender(name, database):
 		database.session.add(Gender(name, pronounSetId))
 		database.session.commit()
-
