@@ -35,19 +35,38 @@ class PronounSet(db.Model):
 		self.pronoun_possessive = pronoun_possessive
 		self.description = description
 
-def getGenderQuery(name, database=db):
-	return database.session.query(Gender).filter_by(name=name)
+"""
+get gender query using filterBy dict
+accepted filterBy keys: "name", "id", "pronoun_set_id"
+example: getGenderQuery({"name":"witch"})
+"""
+def getGenderQuery(filterBy, database=db):
+	id, name, pronoun_set_id = [filterBy.get(n) for n in ["id","name","pronoun_set_id"]]
+	q = database.session.query(Gender)
+	if id != None:
+		q = q.filter_by(id=id)
+	if name != None:
+		q = q.filter_by(name=name)
+	if pronoun_set_id != None:
+		q = q.filter_by(pronoun_set_id=pronoun_set_id)
+	return q
 
-def getGender(name, database=db):
-	genders = getGenderQuery(name, database).all()
+def getGender(filterBy, database=db):
+	genders = getGenderQuery(filterBy, database).all()
 	if len(genders):
 		return genders[0]
 
 def getRandomGender(database=db):
 	highest = database.session.query(func.max(Gender.id)).scalar();
-	#randint is inclusive-inclusive
-	index = random.randint(1, highest)
-	return db.session.query(Gender).filter_by(id=index).all()[0]
+
+	g = None
+	while not g:
+		#randint is inclusive-inclusive
+		index = random.randint(1, highest)
+		#g = db.session.query(Gender).filter_by(id=index).all()[0]
+		g = getGender({"id":index})
+
+	return g
 
 """update gender entry using dict of values"""
 def updateGender(name, values, database=db):
