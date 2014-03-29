@@ -1,5 +1,5 @@
 import random
-from flask import jsonify
+from flask import jsonify, request, render_template, url_for
 from genderator import app
 from genderator.models import *
 from sqlalchemy import func
@@ -60,7 +60,7 @@ def index():
 
 @app.route("/genderate/")
 def genderate():
-	return "genderator coming soon..."
+	return render_template("genderate.html")
 
 @app.route("/genderate/get_random_gender/")
 def get_random_gender():

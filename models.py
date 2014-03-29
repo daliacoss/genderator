@@ -35,12 +35,13 @@ class PronounSet(db.Model):
 		self.pronoun_possessive = pronoun_possessive
 		self.description = description
 
-"""
-get gender query using filterBy dict
-accepted filterBy keys: "name", "id", "pronoun_set_id"
-example: getGenderQuery({"name":"witch"})
-"""
 def getGenderQuery(filterBy, database=db):
+	"""
+	get gender query using filterBy dict
+	accepted filterBy keys: "name", "id", "pronoun_set_id"
+	example: getGenderQuery({"name":"witch"})
+	"""
+
 	id, name, pronoun_set_id = [filterBy.get(n) for n in ["id","name","pronoun_set_id"]]
 	q = database.session.query(Gender)
 	if id != None:
@@ -63,14 +64,14 @@ def getRandomGender(database=db):
 	while not g:
 		#randint is inclusive-inclusive
 		index = random.randint(1, highest)
-		#g = db.session.query(Gender).filter_by(id=index).all()[0]
 		g = getGender({"id":index})
 
 	return g
 
-"""update gender entry using dict of values"""
-def updateGender(name, values, database=db):
-	getGenderQuery(name, database).update(values)
+def updateGender(filterBy, values, database=db):
+	"""update gender entry using dict of values"""
+	
+	getGenderQuery(filterBy, database).update(values)
 	database.session.commit()
 
 def insertGenderFromValues(name, pronounSetId=defaultPronounId, database=db):
