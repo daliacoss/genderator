@@ -60,7 +60,7 @@ def index():
 
 @app.route("/genderate/")
 def genderate():
-	return render_template("genderate.html")
+	return render_template("genderate.html", gender=getRandomGender())
 
 @app.route("/genderate/get_random_gender/")
 def get_random_gender():
