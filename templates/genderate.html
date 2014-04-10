@@ -1,22 +1,19 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+{% extends "base.html" %}
 
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" href="/{{url_for('static', filename='main.css').lstrip('/')}}" />
-</head>
-<body>
-	<div id="content">
+{% block title %}genderate!{% endblock %}
+{% block body %}
+	<div id="genderate_content">
 		<h2>Is your gender</h2><h1 id="genderText">{{gender.name}}</h1><h2>?</h2>
 		<p><input type="button" onclick="refreshGender()" value="No" /></p>
 	</div>
 
 	<script type="text/javascript" src="/{{url_for('static', filename='js/jquery-1.7.2.js').lstrip('/')}}"></script>
 	<script type="text/javascript">
-		var currentGender = document.getElementById("genderText").innerHTML;
+		var genderName = "{{gender.name}}";
 		function refreshGender(){
 			$.getJSON("get_random_gender", function(data){
 				document.getElementById("genderText").innerHTML = data.genderName;
 			});
-		};
+		}
 	</script>
-</body>
+{% endblock %}

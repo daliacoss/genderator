@@ -1,16 +1,28 @@
 body {
 	font-family: helvetica;
-	font-size: 12px;
+	font-size: 13px;
 }
 
-#content {
+#profile_content {
+	margin: 0 10em;
+	height: 100%;
+
+	/*background-color: #ccc;*/
+	font-size: 1.2em;
+}
+
+#profile_genderArea{
+	display: none;
+}
+
+#genderate_content {
 	text-align: center;
 }
-#content h1 {
+#genderate_content h1 {
 	font-size: 2.3em;
 	margin: 0;
 }
-#content h2 {
+#genderate_content h2 {
 	font-size: 2em;
 	line-height: 1em;
 	font-weight: normal;
