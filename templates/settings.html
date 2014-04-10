@@ -7,7 +7,7 @@
 		<form>
 			Name: <input type="text" name="name"><br/>
 			Website: <input type="text" name="website"><br/>
-			<input type="checkbox" id="profile_genderCheckbox" name="specifyGender" onclick="genderCheckboxClick()">Specify gender<br/>
+			<input type="checkbox" id="profile_genderCheckbox" name="specifyGender">Specify gender<br/>
 			<div id="profile_genderArea">
 				Gender: <input type="text" id="genderName" name="genderName"><br/>
 				Not sure? Use the <a href="/{{url_for('genderate')}}">genderator!</a>
@@ -17,13 +17,19 @@
 
 	<script type="text/javascript" src="/{{url_for('static', filename='js/jquery-1.7.2.js').lstrip('/')}}"></script>
 	<script type="text/javascript">
-		function genderCheckboxClick(){
-			if (document.getElementById("profile_genderCheckbox").checked){
-				document.getElementById("profile_genderArea").style.display = "inline";
-			}
-			else{
-				document.getElementById("profile_genderArea").style.display = "none";
-			}
-		}
+		$(document).ready(function(){
+
+			$("#profile_genderCheckbox").on("click", function(e){
+				//alert(this.checked);
+				//if (document.getElementById("profile_genderCheckbox").checked){
+				if (this.checked) {
+					$("#profile_genderArea").css("display", "inline");
+				}
+				else{
+					//alert("off");
+					$("#profile_genderArea").css("display", "none");
+				}
+			});
+		});
 	</script>
 {% endblock %}

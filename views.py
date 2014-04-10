@@ -43,7 +43,10 @@ def index():
 
 @app.route(urls.settings.urlf, methods=["GET", "POST"])
 def editprofile():
-	return render_template("settings.html")
+	formData = {}
+	if request.method == "POST":
+		formData = request.form["formData"]
+	return render_template("settings.html", formData=formData)
 
 @app.route(urls.genderate.urlf)
 def genderate():

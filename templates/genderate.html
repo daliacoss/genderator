@@ -16,7 +16,7 @@
 			$("#genderate_content input[name='No']").on("click", function(e) {
 				currentGender = refreshGender(genders);
 			})
-		})
+		});
 		function getAllGenders(){
 			//debugger
 			$.getJSON("get_all_genders", function(data){
