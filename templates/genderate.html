@@ -4,12 +4,19 @@
 {% block body %}
 	<div id="genderate_content">
 		<h2>Is your gender</h2><h1 id="genderText">{{gender.name}}</h1><h2>?</h2>
-		<p><input type="button" onclick="refreshGender()" value="No" /></p>
+		<p><input type="button"  value="No" /></p>
 	</div>
 
 	<script type="text/javascript" src="/{{url_for('static', filename='js/jquery-1.7.2.js').lstrip('/')}}"></script>
 	<script type="text/javascript">
-		var genderName = "{{gender.name}}";
+		var genderName;
+		$(document).ready(function() {
+			genderName = $("#genderate_content h1").text();
+			$("#genderate_content input[type='button']").on("click", function(e) {
+				//e.preventDefault();
+				refreshGender();
+			})
+		})
 		function refreshGender(){
 			$.getJSON("get_random_gender", function(data){
 				document.getElementById("genderText").innerHTML = data.genderName;

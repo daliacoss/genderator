@@ -38,7 +38,7 @@ urls.genderate.newURL("get_random_gender")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-	return redirect("settings")
+	return redirect("/settings")
 
 @app.route(urls.settings.urlf, methods=["GET", "POST"])
 def editprofile():
