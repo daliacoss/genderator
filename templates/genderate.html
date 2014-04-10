@@ -3,24 +3,34 @@
 {% block title %}genderate!{% endblock %}
 {% block body %}
 	<div id="genderate_content">
-		<h2>Is your gender</h2><h1 id="genderText">{{gender.name}}</h1><h2>?</h2>
-		<p><input type="button"  value="No" /></p>
+		<h2>Is your gender</h2><h1 id="genderText"></h1><h2>?</h2>
+		<p><input type="button" name="Yes" value="Yes" /><input type="button" name="No" value="No" /></p>
 	</div>
 
 	<script type="text/javascript" src="/{{url_for('static', filename='js/jquery-1.7.2.js').lstrip('/')}}"></script>
 	<script type="text/javascript">
-		var genderName;
+		var genders;
+		var currentGender;
 		$(document).ready(function() {
-			genderName = $("#genderate_content h1").text();
-			$("#genderate_content input[type='button']").on("click", function(e) {
-				//e.preventDefault();
-				refreshGender();
+			getAllGenders();
+			$("#genderate_content input[name='No']").on("click", function(e) {
+				currentGender = refreshGender(genders);
 			})
 		})
-		function refreshGender(){
-			$.getJSON("get_random_gender", function(data){
-				document.getElementById("genderText").innerHTML = data.genderName;
+		function getAllGenders(){
+			//debugger
+			$.getJSON("get_all_genders", function(data){
+				genders = data.genders;
+				currentGender = refreshGender(genders)
 			});
+		}
+		function refreshGender(genderList){
+			//$.getJSON("get_random_gender", function(data){
+			//	document.getElementById("genderText").innerHTML = data.genderName;
+			//});
+			var g = genderList[Math.floor(Math.random()*genderList.length)];
+			document.getElementById("genderText").innerHTML = g.name;
+			return g;
 		}
 	</script>
 {% endblock %}

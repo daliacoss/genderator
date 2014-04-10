@@ -20,6 +20,9 @@ class Gender(db.Model):
 		self.name = name
 		self.pronoun_set_id = pronoun_set_id
 
+	def toDict(self):
+		return {"id":self.id, "name":self.name, "pronoun_set_id":self.pronoun_set_id}
+
 class PronounSet(db.Model):
 	__tablename__ = "pronoun_sets"
 
@@ -52,10 +55,15 @@ def getGenderQuery(filterBy, database=db):
 		q = q.filter_by(pronoun_set_id=pronoun_set_id)
 	return q
 
-def getGender(filterBy, database=db):
+def getGenders(filterBy, database=db):
 	genders = getGenderQuery(filterBy, database).all()
 	if len(genders):
-		return genders[0]
+		return genders
+
+def getGender(filterBy, database=db):
+	g = getGenders(filterBy, database)
+	if len(g):
+		return g[0] 
 
 def getRandomGender(database=db):
 	highest = database.session.query(func.max(Gender.id)).scalar();

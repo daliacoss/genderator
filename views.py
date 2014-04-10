@@ -35,6 +35,7 @@ urls = URL("")
 urls.newURL("settings")
 urls.newURL("genderate")
 urls.genderate.newURL("get_random_gender")
+urls.genderate.newURL("get_all_genders")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -47,6 +48,12 @@ def editprofile():
 @app.route(urls.genderate.urlf)
 def genderate():
 	return render_template("genderate.html", gender=getRandomGender())
+
+@app.route(urls.genderate.get_all_genders.urlf)
+def get_all_genders():
+	gcollection = [g.toDict() for g in getGenders({})]
+	return jsonify(genders=gcollection)
+	#return gcollection[0]
 
 @app.route(urls.genderate.get_random_gender.urlf)
 def get_random_gender():
